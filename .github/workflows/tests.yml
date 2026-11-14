@@ -1,0 +1,40 @@
+# Runs brew test-bot (tap syntax, audit, install, test) on every push and PR.
+# Pattern follows the Homebrew tap template (Homebrew/actions/setup-homebrew
+# + test-bot phases) and the irisproject CI style (actions/checkout@v4,
+# macos-15 pinned, macos-latest as the second runner).
+name: brew test-bot
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-bot:
+    strategy:
+      matrix:
+        os: [macos-15, macos-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+        with:
+          test-bot: true
+      - name: Cache Homebrew Bundler RubyGems
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ matrix.os }}-rubygems-
+      - name: Run brew test-bot
+        run: |
+          brew test-bot --only-cleanup-before
+          brew test-bot --only-setup
+          brew test-bot --only-tap-syntax
+          brew test-bot --only-formulae --only-json-tab --skip-livecheck
+          brew test-bot --only-cleanup-after
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: 1
+          HOMEBREW_NO_INSTALL_FROM_API: 1

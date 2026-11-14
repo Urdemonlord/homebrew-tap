@@ -32,7 +32,7 @@ jobs:
       # is only tapped mid-cleanup, that lookup fails with
       # 'No available formula with the name "texinfo"'.
       - name: Tap homebrew/core
-        run: brew tap homebrew/core
+        run: brew tap homebrew/core --force
       - name: Run brew test-bot
         run: |
           brew test-bot --only-cleanup-before

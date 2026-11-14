@@ -20,14 +20,19 @@ jobs:
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@main
-        with:
-          test-bot: true
       - name: Cache Homebrew Bundler RubyGems
         uses: actions/cache@v4
         with:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
           key: ${{ matrix.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
           restore-keys: ${{ matrix.os }}-rubygems-
+      # Tap core up front: test-bot's cleanup phase runs `brew cleanup
+      # --prune-prefix`, which prunes broken .info symlinks left by the
+      # runner image and resolves the `texinfo` formula to do so. If core
+      # is only tapped mid-cleanup, that lookup fails with
+      # 'No available formula with the name "texinfo"'.
+      - name: Tap homebrew/core
+        run: brew tap homebrew/core
       - name: Run brew test-bot
         run: |
           brew test-bot --only-cleanup-before

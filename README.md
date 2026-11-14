@@ -25,7 +25,7 @@ See the formula caveats (`brew info iris-mail-stack`) for the full notes.
 
 ## Updating for a new IRIS release
 
-The formula source of truth lives in irisproject at `packaging/homebrew/iris-mail-stack.rb`. This tap ships the release copy verbatim. When a new IRIS release ships, copy the updated formula here and update the version and both `sha256` values together — download each macOS tarball from the GitHub release and run `shasum -a 256 <tarball>`; never guess the hashes.
+The formula source of truth lives in irisproject at `packaging/homebrew/iris-mail-stack.rb`. This tap ships the 0.4.1 formula from irisproject with Homebrew 7 audit fixes applied (see the formula header); the upstream draft still needs the same fixes. When a new IRIS release ships, copy the updated formula here and update the version and both `sha256` values together — download each macOS tarball from the GitHub release and run `shasum -a 256 <tarball>`; never guess the hashes.
 
 ## Notes
 

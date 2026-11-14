@@ -2,7 +2,10 @@
 #
 # The sha256 values below were filled from the v0.4.1 release tarballs
 # (download the asset, `shasum -a 256 <tarball>`). Update the version
-# and both hashes together when a new release ships; never guess them.
+# in both URLs and both hashes together when a new release ships;
+# never guess them. The `version` line is intentionally omitted:
+# Homebrew infers it from the URLs, and an explicit line is flagged
+# redundant by `brew audit`.
 #
 # Tap copy: this file started as packaging/homebrew/iris-mail-stack.rb
 # from irisproject main, with three Homebrew 7 audit fixes applied
@@ -19,16 +22,15 @@
 class IrisMailStack < Formula
   desc "Self-hosted mail stack: IRIS webmail + Stalwart + Caddy, one install"
   homepage "https://github.com/Urdemonlord/irisproject"
-  version "0.4.1"
   license all_of: ["MIT", "Apache-2.0"]
 
   depends_on macos: :sonoma
 
   if Hardware::CPU.arm?
-    url "https://github.com/Urdemonlord/irisproject/releases/download/v#{version}/iris-mail-stack-#{version}-macos-arm64.tar.gz"
+    url "https://github.com/Urdemonlord/irisproject/releases/download/v0.4.1/iris-mail-stack-0.4.1-macos-arm64.tar.gz"
     sha256 "08dfaaaf09a734d58d3bf8e19257da31d2f9a4e9dc67d9997b2cde2aab886c13"
   else
-    url "https://github.com/Urdemonlord/irisproject/releases/download/v#{version}/iris-mail-stack-#{version}-macos-amd64.tar.gz"
+    url "https://github.com/Urdemonlord/irisproject/releases/download/v0.4.1/iris-mail-stack-0.4.1-macos-amd64.tar.gz"
     sha256 "96cadaaecfd28b4592edd83bfe5b459927dab10a6f0a75877aba6d02b18c152a"
   end
 
